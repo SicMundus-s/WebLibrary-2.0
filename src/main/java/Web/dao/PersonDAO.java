@@ -21,7 +21,7 @@ public class PersonDAO {
 
     public List<Person> index() {
         // RowMapper преображает строки из таблицы Person в объекты класса Person устанавливает значения для полей
-        return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<Person>());
+        return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
     }
 
     public Person show(int id) {

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>show</title>
+</head>
+<body>
+
+<p th:text="${'id: ' + person.getId()}">VALUE</p>
+<p th:text="${'name: ' + person.getName()}">VALUE</p>
+<p th:text="${'surname: ' + person.getSurname() }">VALUE</p>
+<p th:text="${'middle name: ' + person.getMiddle_name() }">VALUE</p>
+<p th:text="${'birthday: ' + person.getBirthday()}">VALUE</p>
+
+
+</body>
+</html>
