@@ -7,12 +7,13 @@
 </head>
 <body>
 
-
+<!-- th:each извлекает список(лист) продуктов из уровня сервиса(дао)-->
 <div th:each="person : ${people}">
     <a th:href="@{/people/{id}(id=${person.getId()})}"
        th:text="${'id: ' + person.getId() + ' name: ' + person.getName()}">user</a>
 </div>
 
+<hr/>
 <br/>
 
 <a th:href="@{/people/new}">Создание нового человека</a>

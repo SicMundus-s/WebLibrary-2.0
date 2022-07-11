@@ -33,4 +33,14 @@ public class PersonDAO {
         jdbcTemplate.update("INSERT INTO Person(name, surname, middle_name, birthday) VALUES (?, ?, ?, ?::date)",
                 person.getName(), person.getSurname(), person.getmiddle_name(), person.getBirthday());
     }
+
+    public void update(int id, Person updatePerson) {
+        jdbcTemplate.update("UPDATE Person SET name=?, surname=?, middle_name=?, birthday=?::date WHERE id = ?",
+                updatePerson.getName(), updatePerson.getSurname(),
+                updatePerson.getmiddle_name(), updatePerson.getBirthday(), id);
+    }
+
+    public void delete(int id) {
+        jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
+    }
 }
