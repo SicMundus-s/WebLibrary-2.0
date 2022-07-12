@@ -24,7 +24,7 @@ public class PeopleController {
     @GetMapping() // Действует как ярлык для RequestMapping. Помечает метод как GET HTTP REQUEST
     public String index(Model model) {
         // Model добавляет атрибуты в модель
-        model.addAttribute("people", personDAO.index());
+        model.addAttribute("peopleList", personDAO.index());
         return "people/index";
     }
 
