@@ -21,7 +21,7 @@
     <div style="color:green" th:if="${#fields.hasErrors('middle_name')}" th:errors="*{middle_name}">middle_name Error</div>
     <br/>
     <label for="birthday">Update birthday</label>
-    <input type="text" th:field="*{birthday}" id="birthday"/>
+    <input type="date" th:field="*{birthday}" id="birthday"/>
     <div style="color:green" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">birthday Error</div>
     <br/>
     <input type="submit" value="Update!">

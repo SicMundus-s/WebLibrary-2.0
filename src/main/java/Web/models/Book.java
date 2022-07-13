@@ -4,18 +4,18 @@ public class Book {
     private int id;
     private String title;
     private String author;
-    private String _year_;
+    private String year;
     private int personid;
 
     public Book() {
 
     };
 
-    public Book(int id, String title, String author, String _year_, int personid) {
+    public Book(int id, String title, String author, String year, int personid) {
         this.id = id;
         this.title = title;
         this.author = author;
-        this._year_ = _year_;
+        this.year = year;
         this.personid = personid;
     }
 
@@ -43,12 +43,12 @@ public class Book {
         this.author = author;
     }
 
-    public String get_year_() {
-        return _year_;
+    public String getyear() {
+        return year;
     }
 
-    public void set_year_(String _year_) {
-        this._year_ = _year_;
+    public void setyear(String year) {
+        this.year = year;
     }
 
     public int getPersonid() {

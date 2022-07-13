@@ -10,13 +10,13 @@
 <!-- th:each извлекает список(лист) продуктов из уровня сервиса(дао)-->
 <div th:each="person : ${peopleList}">
     <a th:href="@{/people/{id}(id=${person.getId()})}"
-       th:text="${'id: ' + person.getId() + ' name: ' + person.getName()}">user</a>
+       th:text="${person.getName() + ' '  + person.getSurname() + ' ' + person.getmiddle_name() + ', ' +  person.getBirthday()}">user</a>
 </div>
 
 <hr/>
 <br/>
 
-<a th:href="@{/people/new}">Создание нового человека</a>
+<a th:href="@{/people/new}">Create person</a>
 
 </body>
 </html>

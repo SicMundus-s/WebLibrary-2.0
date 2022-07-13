@@ -32,6 +32,7 @@ public class PeopleController {
     // @PathVariable Извлекает значение из URL запроса
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDAO.show(id));
+        model.addAttribute("PersonBooksId", personDAO.getBooksByPersonId(id));
         return "people/show";
     }
     @GetMapping("/new") //

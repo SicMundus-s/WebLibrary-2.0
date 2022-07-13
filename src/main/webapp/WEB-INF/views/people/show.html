@@ -6,15 +6,22 @@
 </head>
 <body>
 
-<p th:text="${'id: ' + person.getId()}">VALUE</p>
-<p th:text="${'name: ' + person.getName()}">VALUE</p>
-<p th:text="${'surname: ' + person.getSurname()}">VALUE</p>
-<p th:text="${'middle name: ' + person.getmiddle_name()}">VALUE</p>
-<p th:text="${'birthday: ' + person.getBirthday()}">VALUE</p>
+<p th:text="${person.getName() + ' ' + person.getSurname() + ' ' + person.getmiddle_name() + ', ' + person.getBirthday() }">VALUE</p>
+
+<div th:if="${PersonBooksId}">
+    <form
+
+</div>
 
 <br/>
 <hr/>
 
+<a th:href="@{/people/{id}/edit(id=${person.getId()})}">
+    <input type="submit" value="Update">
+</a>
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
 
 </body>
 </html>
