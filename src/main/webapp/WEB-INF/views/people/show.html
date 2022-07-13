@@ -2,26 +2,36 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>show</title>
+    <meta http-equiv="refresh" content="30"> <!-- Обновление каждый 30 сек-->
+    <title>Профиль пользователя</title>
 </head>
-<body>
+<body style="background-color:powderblue;">
+
+<h1 style="text-align:center;">Просмотр профиля человека</h1>
 
 <p th:text="${person.getName() + ' ' + person.getSurname() + ' ' + person.getmiddle_name() + ', ' + person.getBirthday() }">VALUE</p>
 
-<!--<div th:if="${PersonBooksId}">
-    <form
+<div th:if="${booksPerson.isEmpty()}">
+    <hr/>
+    <p>Человек пока не взял ни одной книги</p>
+    <hr/>
+</div>
 
-</div> -->
+<div th:if="${!booksPerson.isEmpty()}">
+    <hr/>
+    <b>Книги:</b>
+    <br/>
+    <p th:each="book : ${booksPerson}"
+        th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getyear()}">Value </p>
+    <hr/>
+</div>
 
-<br/>
-<hr/>
-
-
-<a th:href="@{/people/{id}/edit(id=${person.getId()})}">Update</a>
+<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+    <input type="submit" value="Редактировать"/>
+</form>
 <br/>
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
-    <input type="submit" value="Delete"/>
+    <input type="submit" value="Удалить"/>
 </form>
-
 </body>
 </html>

@@ -2,11 +2,13 @@ package Web.dao;
 
 
 import Web.models.Book;
+import Web.models.Person;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BookDAO {
@@ -29,5 +31,10 @@ public class BookDAO {
      public void save(Book book) {
         jdbcTemplate.update("INSERT INTO book(title, author, yearbook) VALUES (?, ?, ?::date)",
                 book.getTitle(), book.getAuthor(), book.getyear());
+    }
+
+    public Optional<Person> getBooksOwner(int id) {
+        return jdbcTemplate.query("SELECT * FROM Person LEFT JOIN Book ON person.id = book.personid WHERE person.id = ?", new Object[]{id},
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 }

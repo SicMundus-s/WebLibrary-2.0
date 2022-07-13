@@ -1,6 +1,7 @@
 package Web.dao;
 
 
+import Web.models.Book;
 import Web.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -8,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component // С помощбю аннотации Spring определяет этот класс как кандидата для создания bean.
 public class PersonDAO {
@@ -29,11 +31,6 @@ public class PersonDAO {
                 new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
     }
 
-    public Person getBooksByPersonId(int id) {
-        return jdbcTemplate.query("SELECT * FROM Person LEFT JOIN Book ON person.id = book.personid WHERE person.id = ?", new Object[]{id},
-        new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
-    }
-
     public void save(Person person) {
         jdbcTemplate.update("INSERT INTO Person(name, surname, middle_name, birthday) VALUES (?, ?, ?, ?::date)",
                 person.getName(), person.getSurname(), person.getmiddle_name(), person.getBirthday());
@@ -47,5 +44,9 @@ public class PersonDAO {
 
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
+    }
+
+    public List<Book> getBooksByPersonId(int id) {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE personid=?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class));
     }
 }
