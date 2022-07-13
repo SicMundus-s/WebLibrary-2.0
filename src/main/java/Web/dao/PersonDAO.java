@@ -30,7 +30,7 @@ public class PersonDAO {
     }
 
     public Person getBooksByPersonId(int id) {
-        return jdbcTemplate.query("SELECT * FROM Person LEFT JOIN Book ON person.id = book.personid", new Object[]{id},
+        return jdbcTemplate.query("SELECT * FROM Person LEFT JOIN Book ON person.id = book.personid WHERE person.id = ?", new Object[]{id},
         new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
     }
 

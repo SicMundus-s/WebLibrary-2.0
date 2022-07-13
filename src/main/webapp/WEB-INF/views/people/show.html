@@ -8,17 +8,17 @@
 
 <p th:text="${person.getName() + ' ' + person.getSurname() + ' ' + person.getmiddle_name() + ', ' + person.getBirthday() }">VALUE</p>
 
-<div th:if="${PersonBooksId}">
+<!--<div th:if="${PersonBooksId}">
     <form
 
-</div>
+</div> -->
 
 <br/>
 <hr/>
 
-<a th:href="@{/people/{id}/edit(id=${person.getId()})}">
-    <input type="submit" value="Update">
-</a>
+
+<a th:href="@{/people/{id}/edit(id=${person.getId()})}">Update</a>
+<br/>
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
     <input type="submit" value="Delete"/>
 </form>

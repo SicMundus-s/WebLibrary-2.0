@@ -28,7 +28,7 @@ public class PeopleController {
         return "people/index";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // Не работает show когда мы создаём нового человека
     // @PathVariable Извлекает значение из URL запроса
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDAO.show(id));
