@@ -9,14 +9,19 @@
 
 <h1 style="text-align:center;">Книга: <b th:text="${book.getTitle()}">Value</b> </h1>
 
-<p th:text="${'Author: ' + book.getAuthor() + ',  ' + 'Date of publication: ' +  book.getYearbook()}">VALUE</p>
+<p th:text="${'Author: ' + book.getAuthor() + ',  ' + 'Date of publication: ' +  book.getYear_book()}">VALUE</p>
 
 
 <div th:if="${ownerBook}"> <!-- Возвращает null если книга никому принадлежит-->
     <hr/>
-    <p th:text="${ownerBook.getName()}"> VALUE </p>
+    <p> Книга сейчас у: <b th:text="${ownerBook.getName()}"> VALUE </b>
+    <form th:method="PATCH" th:action="@{/books/{id}/bookAway(id=${book.getId()})}">
+        <input type="submit" value="Give the book away"/>
+    </form>
     <hr/>
 </div>
+
+
 
 <div th:if="${noBookOwner}">
     <hr/>

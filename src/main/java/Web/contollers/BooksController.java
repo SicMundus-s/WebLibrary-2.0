@@ -58,4 +58,10 @@ public class BooksController {
         bookDAO.save(book);
         return "redirect:/books";
     }
+
+    @PatchMapping("/{id}/bookAway")
+    public String bookAway(@PathVariable("id") int id) {
+        bookDAO.giveTheBookAway(id);
+        return "redirect:/books/" + id;
+    }
 }
