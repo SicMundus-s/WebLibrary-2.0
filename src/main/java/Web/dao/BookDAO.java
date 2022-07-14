@@ -29,12 +29,14 @@ public class BookDAO {
     }
 
      public void save(Book book) {
-        jdbcTemplate.update("INSERT INTO book(title, author, yearbook) VALUES (?, ?, ?::date)",
-                book.getTitle(), book.getAuthor(), book.getyear());
+        jdbcTemplate.update("INSERT INTO book(title, author, yearbook) VALUES (?, ?, ?)",
+                book.getTitle(), book.getAuthor(), book.getYearbook());
     }
 
     public Optional<Person> getBooksOwner(int id) {
-        return jdbcTemplate.query("SELECT * FROM Person LEFT JOIN Book ON person.id = book.personid WHERE person.id = ?", new Object[]{id},
+        Optional<Person> my  = jdbcTemplate.query("SELECT * FROM Book JOIN Person ON book.personid = person.id WHERE book.id = ?", new Object[]{id},
                 new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+        System.out.println(my);
+        return my;
     }
 }

@@ -1,7 +1,9 @@
 package Web.contollers;
 
 import Web.dao.BookDAO;
+import Web.dao.PersonDAO;
 import Web.models.Book;
+import Web.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,16 +11,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
 public class BooksController {
 
     private final BookDAO bookDAO;
+    private final PersonDAO personDAO;
 
     @Autowired
-    public BooksController(BookDAO bookDAO) {
+    public BooksController(BookDAO bookDAO, PersonDAO personDAO) {
         this.bookDAO = bookDAO;
+        this.personDAO = personDAO;
     }
 
     @GetMapping()
@@ -30,6 +35,12 @@ public class BooksController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("book", bookDAO.show(id));
+
+
+        if(bookDAO.getBooksOwner(id).isPresent()) {
+            model.addAttribute("ownerBook", bookDAO.getBooksOwner(id).get()); // Get возвращает объект из optional
+        } else
+            model.addAttribute("noBookOwner", bookDAO.getBooksOwner(id));
         return "books/show";
     }
 
