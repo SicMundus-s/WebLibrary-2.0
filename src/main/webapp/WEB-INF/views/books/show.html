@@ -21,11 +21,16 @@
     <hr/>
 </div>
 
-
-
-<div th:if="${noBookOwner}">
+<div th:if="${peopleListToAssignBook}">
     <hr/>
     <p> Эта книга свободна. Кому её назначить? </p>
+    <form th:method="PATCH" th:action="@{/books/{id}/assignBook(id=${book.getId()})}">
+        <label for="person">Выберите человека:</label>
+        <select th:object="${person}" th:field="*{id}" id = "person">
+        <option th:each="person : ${peopleListToAssignBook}" th:value="${person.getId()}" th:text="${person.getName()}"></option>
+        </select>
+        <input type="submit" value="Select a book">
+    </form>
     <hr/>
 </div>
 

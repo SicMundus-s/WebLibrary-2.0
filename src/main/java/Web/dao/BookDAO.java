@@ -43,4 +43,8 @@ public class BookDAO {
     public void giveTheBookAway(int id) {
         jdbcTemplate.update("UPDATE book SET person_id = NULL WHERE id = ?", id);
     }
+
+    public void assign(int id, Person selectedPerson) {
+        jdbcTemplate.update("UPDATE book SET person_id = ? WHERE id = ?", selectedPerson.getId(), id);
+    }
 }

@@ -33,14 +33,15 @@ public class BooksController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
+    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
+        // @ModelAtt Создаёт пустого человека и передаёт его в Show.html для назначения из выподающего списка
         model.addAttribute("book", bookDAO.show(id));
 
 
         if(bookDAO.getBooksOwner(id).isPresent()) {
             model.addAttribute("ownerBook", bookDAO.getBooksOwner(id).get()); // Get возвращает объект из optional
         } else
-            model.addAttribute("noBookOwner", bookDAO.getBooksOwner(id));
+            model.addAttribute("peopleListToAssignBook", personDAO.index()); // Возвращаем список людей для Выпадающего списка
         return "books/show";
     }
 
@@ -62,6 +63,14 @@ public class BooksController {
     @PatchMapping("/{id}/bookAway")
     public String bookAway(@PathVariable("id") int id) {
         bookDAO.giveTheBookAway(id);
+        return "redirect:/books/" + id;
+    }
+
+    @PatchMapping("/{id}/assignBook")
+    // Тут @ModelAtt создаёт пустого человека и принимает выбранного(по id) из выпадающего списка в html(show) файле
+    // Тем самым мы получаем id выбранного человека из HTTP запроса и назначаем ему книгу
+    public String assignBook(@PathVariable("id") int id, @ModelAttribute("person") Person person) {
+        bookDAO.assign(id, person);
         return "redirect:/books/" + id;
     }
 }
