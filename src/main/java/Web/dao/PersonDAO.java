@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
-@Component // С помощбю аннотации Spring определяет этот класс как кандидата для создания bean.
+@Component // С помощью аннотации Spring определяет этот класс как кандидата для создания bean.
 public class PersonDAO {
 
     private JdbcTemplate jdbcTemplate; // API по управлению БД
@@ -32,12 +32,12 @@ public class PersonDAO {
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO Person(name, surname, middle_name, birthday) VALUES (?, ?, ?, ?)",
+        jdbcTemplate.update("INSERT INTO Person(name, surname, middle_name, birthday) VALUES (?, ?, ?, ?::date)",
                 person.getName(), person.getSurname(), person.getmiddle_name(), person.getBirthday());
     }
 
     public void update(int id, Person updatePerson) {
-        jdbcTemplate.update("UPDATE Person SET name=?, surname=?, middle_name=?, birthday=? WHERE id = ?",
+        jdbcTemplate.update("UPDATE Person SET name=?, surname=?, middle_name=?, birthday=?::date WHERE id = ?",
                 updatePerson.getName(), updatePerson.getSurname(),
                 updatePerson.getmiddle_name(), updatePerson.getBirthday(), id);
     }
