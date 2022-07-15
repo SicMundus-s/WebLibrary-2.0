@@ -4,6 +4,7 @@ import Web.dao.BookDAO;
 import Web.dao.PersonDAO;
 import Web.models.Book;
 import Web.models.Person;
+import Web.util.BookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +19,14 @@ public class BooksController {
 
     private final BookDAO bookDAO;
     private final PersonDAO personDAO; // Внедрение одной сущности в другую является ошибкой. Внедряю только ради эмпирического опыта
+    private final BookValidator bookValidator;
 
 
     @Autowired
-    public BooksController(BookDAO bookDAO, PersonDAO personDAO) {
+    public BooksController(BookDAO bookDAO, PersonDAO personDAO, BookValidator bookValidator) {
         this.bookDAO = bookDAO;
         this.personDAO = personDAO;
+        this.bookValidator = bookValidator;
     }
 
     @GetMapping()
@@ -54,7 +57,7 @@ public class BooksController {
     @PostMapping()
     public String createBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
 
-       // bookValidator.validate(book, bindingResult); // Проверка на одинаковые значения по полю title
+       bookValidator.validate(book, bindingResult); // Проверка на одинаковые значения по полю title
 
         if(bindingResult.hasErrors())
             return "books/new";
@@ -87,7 +90,7 @@ public class BooksController {
     public String update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
                          @PathVariable("id") int id) {
 
-       // bookValidator.validate(book, bindingResult); // Проверка на одинаковые значения по полю title
+       bookValidator.validate(book, bindingResult); // Проверка на одинаковые значения по полю title
 
         if (bindingResult.hasErrors())
             return "books/edit";
