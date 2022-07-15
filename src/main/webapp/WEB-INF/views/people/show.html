@@ -18,7 +18,6 @@
     <hr/>
 </div>
 
-<<<<<<< HEAD
 <div th:if="${!booksPerson.isEmpty()}">
     <hr/>
     <b>Книги:</b>
@@ -27,11 +26,6 @@
         th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear_book()}">Value </p>
     <hr/>
 </div>
-=======
-<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
-    <input type="submit" value="Delete"/>
-</form>
->>>>>>> 850af815259c70dd7d5269b03b4179d3854c6fa4
 
 <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
     <input type="submit" value="Update person"/>
