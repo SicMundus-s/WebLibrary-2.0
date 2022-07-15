@@ -38,6 +38,9 @@ public class BookDAO {
                 book.getTitle(), book.getAuthor(), book.getYear_book());
     }
 
+    /**
+     * Джойним две таблицы для получения всех книг прикреплённых за человеком
+     */
     public Optional<Person> getBooksOwner(int id) {
         Optional<Person> my  = jdbcTemplate.query("SELECT * FROM Book JOIN Person ON book.person_id = person.id WHERE book.id = ?", new Object[]{id},
                 new BeanPropertyRowMapper<>(Person.class)).stream().findAny();

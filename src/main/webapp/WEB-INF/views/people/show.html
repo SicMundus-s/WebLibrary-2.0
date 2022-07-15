@@ -9,7 +9,8 @@
 
 <h1 style="text-align:center;">Просмотр профиля человека</h1>
 
-<p th:text="${person.getName() + ' ' + person.getSurname() + ' ' + person.getmiddle_name() + ', ' + person.getBirthday() }">VALUE</p>
+<p th:text="${'full name: ' + person.getName() + ' '  + person.getSurname() + ' ' + person.getmiddle_name() + ', '
+        + 'birthday: ' +  person.getBirthday()}">VALUE</p>
 
 <div th:if="${booksPerson.isEmpty()}">
     <hr/>
@@ -27,11 +28,11 @@
 </div>
 
 <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
-    <input type="submit" value="Редактировать"/>
+    <input type="submit" value="Update person"/>
 </form>
 <br/>
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
-    <input type="submit" value="Удалить"/>
+    <input type="submit" value="Delete person"/>
 </form>
 </body>
 </html>

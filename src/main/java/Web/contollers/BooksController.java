@@ -28,16 +28,26 @@ public class BooksController {
         this.personDAO = personDAO;
         this.bookValidator = bookValidator;
     }
-
+/**
+ * Метод получает список всех людей из DAO(метод index) и передаёт их в представление.
+ * Где с помощью th:each проходится по списку.
+ */
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("bookList", bookDAO.index());
         return "books/index";
     }
 
+    /**
+     * Метод получает одного человека из DAO(метод show) и передаёт его в представление.
+     * getBooksOwner проверяет принадлежит ли книга человеку. Возвращает id человека если книги за кем-то прикреплена
+     * id передаётся в представление где в дальнейшем выводится владелец книги.
+     * Если книга никому не принадлежит, то в представление передаётся список людей,
+     * он выводится с помощью выпадающего списка(select/option)
+     * Объект person передаётся для получения id(th:value) из выпадающего списка
+     */
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
-        // @ModelAtt Создаёт пустого человека и передаёт его в Show.html для назначения из выпадающего списка
         model.addAttribute("book", bookDAO.show(id));
 
 
@@ -49,11 +59,17 @@ public class BooksController {
     }
 
 
+    /**
+     * Представление создание книги
+     */
     @GetMapping("/new")
     public String newBook(@ModelAttribute("book") Book book) {
         return "books/new";
     }
 
+    /**
+     * Создание книги
+     */
     @PostMapping()
     public String createBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
 
@@ -66,12 +82,21 @@ public class BooksController {
         return "redirect:/books";
     }
 
+    /**
+     * Возвращение книги от владельца
+     */
     @PatchMapping("/{id}/bookAway")
     public String bookAway(@PathVariable("id") int id) {
         bookDAO.giveTheBookAway(id);
         return "redirect:/books/" + id;
     }
 
+    /**
+     * @param id Получает из строки адреса id книги
+     * @param person Для получения id из ранее переданного пустого человека в методе book.show
+     * @return представление на страницу книги
+     * Метод assign. id - айди книги без владельца. person - кому назначить
+     */
     @PatchMapping("/{id}/assignBook")
     // Тут @ModelAtt создаёт пустого человека и принимает выбранного(по id) из выпадающего списка в html(show) файле
     // Тем самым мы получаем id выбранного человека из HTTP запроса и назначаем ему книгу
@@ -80,12 +105,18 @@ public class BooksController {
         return "redirect:/books/" + id;
     }
 
+    /**
+     * Представление на обновление книги
+     */
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("book", bookDAO.show(id));
         return "books/edit";
     }
 
+    /**
+     * Обновление книги
+     */
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
                          @PathVariable("id") int id) {
@@ -98,7 +129,9 @@ public class BooksController {
         bookDAO.updateBook(id, book);
         return "redirect:/books/" + id;
     }
-
+    /**
+     * Удаление книги
+     */
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
         bookDAO.delete(id);
