@@ -12,13 +12,12 @@
 
     <a th:href="@{/people/{id}(id=${person.getId()})}"
        th:text="${person.getName() + ' '  + person.getSurname() + ' ' + person.getmiddle_name() + ', ' +  person.getBirthday()}">user</a>
-
+    <hr/>
 </div>
 
-<hr/>
-<br/>
-
-<a th:href="@{/people/new}">Create person</a>
+<form th:method="GET" th:action="@{/people/new}">
+    <input type="submit" value="Create person">
+</form>
 
 </body>
 </html>

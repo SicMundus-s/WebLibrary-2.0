@@ -13,5 +13,11 @@
        th:text="${'id: ' + book.getId() + ' title: ' + book.getTitle()}">user</a>
 </div>
 
+<hr/>
+
+<form th:method="GET" th:action="@{books/new}">
+    <input type="submit" value="Create book">
+</form>
+
 </body>
 </html>
