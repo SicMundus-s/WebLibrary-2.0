@@ -9,10 +9,10 @@ public class Person {
     @Size(min = 2, max = 45, message = "Name should be between 2 and 45 characters")
     private String name;
     @NotEmpty
-    @Size(min = 2, max = 45, message = "Name should be between 2 and 45 characters")
+    @Size(min = 2, max = 60, message = "surname should be between 2 and 60 characters")
     private String surname;
     @NotEmpty
-    @Size(min = 2, max = 45, message = "Name should be between 2 and 45 characters")
+    @Size(min = 2, max = 60, message = "middle_name should be between 2 and 60 characters")
     private String middle_name;
     @NotEmpty
     private String birthday;

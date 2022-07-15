@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component // С помощью аннотации Spring определяет этот класс как кандидата для создания bean.
 public class PersonDAO {

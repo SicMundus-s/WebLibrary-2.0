@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 public class Book {
     private int id;
     @NotEmpty
-    @Size(min = 1, max = 150, message = "Name should be between 2 and 150 characters")
+    @Size(min = 1, max = 100, message = "Name should be between 2 and 100 characters")
     private String title;
     @NotEmpty
     @Size(min = 2, max = 150, message = "Name should be between 2 and 150 characters")
