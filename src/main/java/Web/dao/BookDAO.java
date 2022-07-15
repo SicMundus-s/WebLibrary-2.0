@@ -28,6 +28,11 @@ public class BookDAO {
                 new BeanPropertyRowMapper<>(Book.class)).stream().findAny().orElse(null);
     }
 
+//    public Optional<Book> show(String title) {
+//        return jdbcTemplate.query("SELECT * FROM Book WHERE title=?", new Object[]{title},
+//                new BeanPropertyRowMapper<>(Book.class)).stream().findAny();
+//    }
+
      public void save(Book book) {
         jdbcTemplate.update("INSERT INTO book(title, author, year_book) VALUES (?, ?, ?::date)",
                 book.getTitle(), book.getAuthor(), book.getYear_book());

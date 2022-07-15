@@ -1,16 +1,24 @@
 package Web.models;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class Book {
     private int id;
+    @NotEmpty
+    @Size(min = 1, max = 150, message = "Name should be between 2 and 150 characters")
     private String title;
+    @NotEmpty
+    @Size(min = 2, max = 150, message = "Name should be between 2 and 150 characters")
     private String author;
+    @NotEmpty
     private String year_book;
 
     public Book() {
 
     };
 
-    public Book(int id, String title, String author, String year_book, int personid) {
+    public Book(int id, String title, String author, String year_book) {
         this.id = id;
         this.title = title;
         this.author = author;

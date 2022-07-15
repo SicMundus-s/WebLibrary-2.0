@@ -11,14 +11,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
 public class BooksController {
 
     private final BookDAO bookDAO;
-    private final PersonDAO personDAO;
+    private final PersonDAO personDAO; // Внедрение одной сущности в другую является ошибкой. Внедряю только ради эмпирического опыта
+
 
     @Autowired
     public BooksController(BookDAO bookDAO, PersonDAO personDAO) {
@@ -34,7 +34,7 @@ public class BooksController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
-        // @ModelAtt Создаёт пустого человека и передаёт его в Show.html для назначения из выподающего списка
+        // @ModelAtt Создаёт пустого человека и передаёт его в Show.html для назначения из выпадающего списка
         model.addAttribute("book", bookDAO.show(id));
 
 
@@ -53,6 +53,9 @@ public class BooksController {
 
     @PostMapping()
     public String createBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
+
+       // bookValidator.validate(book, bindingResult); // Проверка на одинаковые значения по полю title
+
         if(bindingResult.hasErrors())
             return "books/new";
 
@@ -83,6 +86,9 @@ public class BooksController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
                          @PathVariable("id") int id) {
+
+       // bookValidator.validate(book, bindingResult); // Проверка на одинаковые значения по полю title
+
         if (bindingResult.hasErrors())
             return "books/edit";
 

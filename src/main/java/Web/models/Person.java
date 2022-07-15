@@ -1,10 +1,20 @@
 package Web.models;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class Person {
     private int id;
+    @NotEmpty
+    @Size(min = 2, max = 45, message = "Name should be between 2 and 45 characters")
     private String name;
+    @NotEmpty
+    @Size(min = 2, max = 45, message = "Name should be between 2 and 45 characters")
     private String surname;
+    @NotEmpty
+    @Size(min = 2, max = 45, message = "Name should be between 2 and 45 characters")
     private String middle_name;
+    @NotEmpty
     private String birthday;
 
      public Person() {
