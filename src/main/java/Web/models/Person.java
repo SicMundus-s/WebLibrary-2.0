@@ -1,22 +1,36 @@
 package Web.models;
 
 
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
+@Entity
+@Table(name = "person")
 public class Person {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotEmpty
     @Size(min = 2, max = 45, message = "Name should be between 2 and 45 characters")
+    @Column(name = "name")
     private String name;
     @NotEmpty
     @Size(min = 2, max = 60, message = "surname should be between 2 and 60 characters")
+    @Column(name = "surname")
     private String surname;
     @NotEmpty
     @Size(min = 2, max = 60, message = "middle_name should be between 2 and 60 characters")
+    @Column(name = "middle_name")
     private String middle_name;
     @NotEmpty
+    @Column(name = "birthday")
     private String birthday;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> bookList;
 
      public Person() {
 
@@ -67,5 +81,23 @@ public class Person {
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
+    }
+
+    public List<Book> getBookList() {
+        return bookList;
+    }
+
+    public void setBookList(List<Book> bookList) {
+        this.bookList = bookList;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", middle_name='" + middle_name + '\'' +
+                ", birthday='" + birthday + '\'' +
+                '}';
     }
 }
