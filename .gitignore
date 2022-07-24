@@ -95,6 +95,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 ### Maven template
+hibernate.propetries
 database.properties
 target/
 pom.xml.tag

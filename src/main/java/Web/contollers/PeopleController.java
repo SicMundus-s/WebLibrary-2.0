@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+
 @Controller // Помечает что данный класс является контроллером. Внутри содержит @Component, которая в свою очередь является бином.
 @RequestMapping("/people") // Добавляет каждой ссылке people(Очень грубо)
 public class PeopleController {
