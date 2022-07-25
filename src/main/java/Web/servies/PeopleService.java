@@ -3,6 +3,7 @@ package Web.servies;
 import Web.models.Book;
 import Web.models.Person;
 import Web.repositories.PeopleRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +48,8 @@ public class PeopleService {
 
     public List<Book> getBooksByPersonId(int id) {
         Optional<Person> person = peopleRepository.findById(id);
+
+        Hibernate.initialize(person.get().getBookList()); // Подгружаем связанные сущности
 
         if (person.isPresent()) {
             return person.get().getBookList();

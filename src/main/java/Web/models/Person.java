@@ -1,9 +1,12 @@
 package Web.models;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,9 +28,11 @@ public class Person {
     @Size(min = 2, max = 60, message = "middle_name should be between 2 and 60 characters")
     @Column(name = "middle_name")
     private String middle_name;
-    @NotEmpty
+
     @Column(name = "birthday")
-    private String birthday;
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date birthday;
 
     @OneToMany(mappedBy = "owner")
     private List<Book> bookList;
@@ -35,7 +40,7 @@ public class Person {
      public Person() {
 
      }
-    public Person(int id, String name, String surname, String middle_name, String birthday) {
+    public Person(int id, String name, String surname, String middle_name, Date birthday) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -75,11 +80,11 @@ public class Person {
         this.middle_name = middle_name;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
