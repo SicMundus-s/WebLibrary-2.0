@@ -1,7 +1,8 @@
 package Web.contollers;
 
-import Web.dao.PersonDAO;
+
 import Web.models.Person;
+import Web.servies.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +16,11 @@ import javax.validation.Valid;
 @RequestMapping("/people") // Добавляет каждой ссылке people(Очень грубо)
 public class PeopleController {
 
-    private final PersonDAO personDAO;
+    private final PeopleService peopleService;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PeopleController(PeopleService peopleService) {
+        this.peopleService = peopleService;
     }
 
     /**
@@ -28,7 +29,7 @@ public class PeopleController {
     @GetMapping() // Действует как ярлык для RequestMapping. Помечает метод как GET HTTP REQUEST
     public String index(Model model) {
         // Model добавляет атрибуты в модель
-        model.addAttribute("peopleList", personDAO.index());
+        model.addAttribute("peopleList", peopleService.findAll());
         return "people/index";
     }
 
@@ -37,10 +38,10 @@ public class PeopleController {
      * getBooksByPersonId возвращает список книг прикреплённых за человеком.
      */
     @GetMapping("/{id}") // Не работает show когда мы создаём нового человека
-    // @PathVariable Извлекает значение из URL запроса
+    // @PathVariable извлекает значение из URL запроса
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personDAO.show(id));
-        model.addAttribute("booksPerson", personDAO.getBooksByPersonId(id));
+        model.addAttribute("person", peopleService.findOne(id));
+        model.addAttribute("booksPerson", peopleService.getBooksByPersonId(id));
         return "people/show";
     }
     /**
@@ -56,10 +57,10 @@ public class PeopleController {
      */
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) { // ModelAttribute создаёт новый пустой объект класса с помощью PreparedStatement
-    if(bindingResult.hasErrors())
-        return "people/new";
+        if(bindingResult.hasErrors())
+           return "people/new";
 
-    personDAO.save(person);
+        peopleService.save(person);
         return "redirect:/people";
 
     }
@@ -69,7 +70,7 @@ public class PeopleController {
      */
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personDAO.show(id));
+        model.addAttribute("person", peopleService.findOne(id));
         return "people/edit";
     }
 
@@ -81,7 +82,7 @@ public class PeopleController {
                          BindingResult bindingResult) {
         if(bindingResult.hasErrors())
             return "people/edit";
-        personDAO.update(id, person);
+        peopleService.update(id, person);
         return "redirect:/people";
     }
 
@@ -90,7 +91,7 @@ public class PeopleController {
      */
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
-        personDAO.delete(id);
+        peopleService.delete(id);
         return "redirect:/people";
     }
 }

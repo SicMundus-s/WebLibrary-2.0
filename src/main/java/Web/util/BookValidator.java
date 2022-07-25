@@ -1,7 +1,7 @@
 package Web.util;
 
-import Web.dao.BookDAO;
 import Web.models.Book;
+import Web.servies.BooksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -10,11 +10,11 @@ import org.springframework.validation.Validator;
 @Component
 public class BookValidator implements Validator {
 
-    private final BookDAO bookDAO;
+    private final BooksService booksService;
 
     @Autowired
-    public BookValidator(BookDAO bookDAO) {
-        this.bookDAO = bookDAO;
+    public BookValidator(BooksService booksService) {
+        this.booksService = booksService;
     }
 
     /**
@@ -34,7 +34,7 @@ public class BookValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Book book = (Book) target;
-        if(bookDAO.show(book.getTitle()).isPresent()) {
+        if(booksService.findByTitle(book.getTitle()).isPresent()) {
             errors.rejectValue("title", "1234", "This title is already taken");
         }
     }

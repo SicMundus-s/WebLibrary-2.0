@@ -16,7 +16,7 @@
     <div style="color:red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author Error</div>
     <br/>
     <label for="year_book">Введите год: </label>
-    <input type="date" th:field="*{year_book}" id="year_book"/>
+    <input type="text" th:field="*{year_book}" id="year_book"/>
     <div style="color:red" th:if="${#fields.hasErrors('year_book')}" th:errors="*{year_book}">Year Error</div>
     <br/>
     <input type="submit" value="Update"/>

@@ -1,9 +1,9 @@
 package Web.contollers;
 
-import Web.dao.BookDAO;
-import Web.dao.PersonDAO;
 import Web.models.Book;
 import Web.models.Person;
+import Web.servies.BooksService;
+import Web.servies.PeopleService;
 import Web.util.BookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,16 +18,16 @@ import javax.validation.Valid;
 @RequestMapping("/books")
 public class BooksController {
 
-    private final BookDAO bookDAO;
-    private final PersonDAO personDAO; // Внедрение одной сущности в другую является ошибкой. Внедряю только ради эмпирического опыта
+    private final BooksService booksService;
     private final BookValidator bookValidator;
 
+    private final PeopleService peopleService;
 
     @Autowired
-    public BooksController(BookDAO bookDAO, PersonDAO personDAO, BookValidator bookValidator) {
-        this.bookDAO = bookDAO;
-        this.personDAO = personDAO;
+    public BooksController(BooksService booksService, BookValidator bookValidator, PeopleService peopleService) {
+        this.booksService = booksService;
         this.bookValidator = bookValidator;
+        this.peopleService = peopleService;
     }
 /**
  * Метод получает список всех людей из DAO(метод index) и передаёт их в представление.
@@ -35,7 +35,7 @@ public class BooksController {
  */
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("bookList", bookDAO.index());
+        model.addAttribute("bookList", booksService.findAll());
         return "books/index";
     }
 
@@ -49,13 +49,13 @@ public class BooksController {
      */
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
-        model.addAttribute("book", bookDAO.show(id));
+        model.addAttribute("book", booksService.findOne(id));
 
 
-        if(bookDAO.getBooksOwner(id).isPresent()) {
-            model.addAttribute("ownerBook", bookDAO.getBooksOwner(id).get()); // Get возвращает объект из optional
+        if(booksService.getBooksOwner(id).isPresent()) {
+            model.addAttribute("ownerBook", booksService.getBooksOwner(id).get()); // Get возвращает объект из optional
         } else
-            model.addAttribute("peopleListToAssignBook", personDAO.index()); // Возвращаем список людей для Выпадающего списка
+            model.addAttribute("peopleListToAssignBook", peopleService.findAll()); // Возвращаем список людей для Выпадающего списка
         return "books/show";
     }
 
@@ -79,7 +79,7 @@ public class BooksController {
         if(bindingResult.hasErrors())
             return "books/new";
 
-        bookDAO.save(book);
+        booksService.save(book);
         return "redirect:/books";
     }
 
@@ -88,7 +88,7 @@ public class BooksController {
      */
     @PatchMapping("/{id}/bookAway")
     public String bookAway(@PathVariable("id") int id) {
-        bookDAO.giveTheBookAway(id);
+        booksService.giveTheBookAway(id);
         return "redirect:/books/" + id;
     }
 
@@ -102,7 +102,7 @@ public class BooksController {
     // Тут @ModelAtt создаёт пустого человека и принимает выбранного(по id) из выпадающего списка в html(show) файле
     // Тем самым мы получаем id выбранного человека из HTTP запроса и назначаем ему книгу
     public String assignBook(@PathVariable("id") int id, @ModelAttribute("person") Person person) {
-        bookDAO.assign(id, person);
+        booksService.assign(id, person);
         return "redirect:/books/" + id;
     }
 
@@ -111,7 +111,7 @@ public class BooksController {
      */
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("book", bookDAO.show(id));
+        model.addAttribute("book", booksService.findOne(id));
         return "books/edit";
     }
 
@@ -127,7 +127,7 @@ public class BooksController {
         if (bindingResult.hasErrors())
             return "books/edit";
 
-        bookDAO.updateBook(id, book);
+        booksService.update(id, book);
         return "redirect:/books/" + id;
     }
     /**
@@ -135,7 +135,7 @@ public class BooksController {
      */
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
-        bookDAO.delete(id);
+        booksService.delete(id);
         return "redirect:/books";
     }
 }

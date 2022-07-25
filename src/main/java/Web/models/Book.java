@@ -1,12 +1,15 @@
 package Web.models;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
-@Table(name = "book")
+@Table(name = "Book")
 public class Book {
     @Id
     @Column(name = "id")
@@ -20,18 +23,20 @@ public class Book {
     @Size(min = 2, max = 150, message = "Name should be between 2 and 150 characters")
     @Column(name = "author")
     private String author;
-    @NotEmpty
+
     @Column(name = "year_book")
-    private String year_book;
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date year_book;
 
     @ManyToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "ic")
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
     public Book() {
 
     };
 
-    public Book(int id, String title, String author, String year_book) {
+    public Book(int id, String title, String author, Date year_book) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -62,11 +67,11 @@ public class Book {
         this.author = author;
     }
 
-    public String getYear_book() {
+    public Date getYear_book() {
         return year_book;
     }
 
-    public void setYear_book(String year_book) {
+    public void setYear_book(Date year_book) {
         this.year_book = year_book;
     }
 
