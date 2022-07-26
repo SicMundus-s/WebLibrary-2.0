@@ -74,4 +74,8 @@ public class BooksService {
     public void assign(int id, Person person) {
         booksRepositories.findById(id).get().setOwner(person);
     }
+
+    public List<Book> searchByTitle(String request) {
+        return booksRepositories.findByTitleStartingWith(request);
+    }
 }

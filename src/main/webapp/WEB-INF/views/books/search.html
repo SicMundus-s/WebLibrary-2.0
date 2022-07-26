@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" , xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Search</title>
 </head>
-<body>
+
+
+<form style="text-align: center" th:method="POST" th:action="@{/books/search}">
+    <label for="search">Enter the title book:</label>
+    <input type="text" id="search" name="search"/> <!-- Присваивает элементу формы имя, которое отправляется на сервер в составе передаваемой пары «имя=значение» -->
+    <input type="submit" value="Search!"> <!-- В данном случаем передаваемое значение получает переменная search -->
+</form>
+
+<div style="text-align: center" th:if="${books.isEmpty()}">
+    <p>Книг не найдено</p>
+</div>
+
+<div style="text-align: center" th:if="${!books.isEmpty()}">
+    <br>
+     <span style="color: green"> Возможные совпадения: </span>
+    <div th:each="book : ${books}">
+            <p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"> VALUE</p>
+
+        <div th:if="${book.getOwner() != null}">
+            <span> Книга сейчас у: </span>
+            <span th:text="${book.getOwner().getName() + ' ' + book.getOwner().getSurname() + ' ' + book.getOwner().getmiddle_name()}"> Person Name </span>
+        </div>
+
+        <div th:if="${book.getOwner() == null}">
+            <span> Книга свободна </span>
+        </div>
+
+    </div>
+</div>
 
 </body>
 </html>

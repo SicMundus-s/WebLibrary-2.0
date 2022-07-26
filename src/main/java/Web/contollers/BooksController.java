@@ -150,6 +150,15 @@ public class BooksController {
 
     @GetMapping("/search")
     public String search() {
-        
+        return "books/search";
+    }
+    @PostMapping("/search")
+    public String searchBook(Model model, @RequestParam(name = "search") String search) {
+        if(search.equals("")) // Если получаем пустое поле ввода делаем редирект
+            return "redirect:/books/search";
+        model.addAttribute("books", booksService.searchByTitle(search));
+        System.out.println(search);
+        return "books/search";
+
     }
 }
