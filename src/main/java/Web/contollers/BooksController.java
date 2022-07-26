@@ -34,8 +34,17 @@ public class BooksController {
  * Где с помощью th:each проходится по списку.
  */
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("bookList", booksService.findAll());
+    public String index(@RequestParam(name = "page", required = false) Integer page,
+                        @RequestParam(name = "books_per_page", required = false) Integer size,
+                        @RequestParam(name = "sort", required = false) boolean sort,
+                        Model model) {
+
+        if(page == null || size == null) {
+            model.addAttribute("bookList", booksService.findAllSortedByYear(sort));
+        }else {
+            model.addAttribute("bookList", booksService.findAll(page, size, sort));
+        }
+
         return "books/index";
     }
 
@@ -137,5 +146,10 @@ public class BooksController {
     public String delete(@PathVariable("id") int id) {
         booksService.delete(id);
         return "redirect:/books";
+    }
+
+    @GetMapping("/search")
+    public String search() {
+        
     }
 }

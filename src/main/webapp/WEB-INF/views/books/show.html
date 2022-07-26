@@ -9,7 +9,7 @@
 
 <h1 style="text-align:center;">Книга: <b th:text="${book.getTitle()}">Value</b> </h1>
 
-<p th:text="${'Author: ' + book.getAuthor() + ',  ' + 'Date of publication: ' +  book.getYear_book()}">VALUE</p>
+<p th:text="${'Author: ' + book.getAuthor() + ',  ' + 'Date of publication: ' +  book.getYear()}">VALUE</p>
 
 
 <div th:if="${ownerBook}"> <!-- Возвращает null если книга никому принадлежит-->

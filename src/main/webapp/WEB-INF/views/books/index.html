@@ -10,7 +10,7 @@
 <!-- th:each извлекает список(лист) продуктов из уровня сервиса(дао)-->
 <div th:each="book : ${bookList}">
     <a th:href="@{/books/{id}(id=${book.getId()})}"
-       th:text="${'title: ' + book.getTitle() + ', author: ' + book.getAuthor() + ', date of publication: ' + book.getYear_book()}">user</a>
+       th:text="${'title: ' + book.getTitle() + ', author: ' + book.getAuthor() + ', date of publication: ' + book.getYear()}">user</a>
 </div>
 
 <hr/>

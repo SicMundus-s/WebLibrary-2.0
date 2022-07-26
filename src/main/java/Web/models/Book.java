@@ -24,10 +24,10 @@ public class Book {
     @Column(name = "author")
     private String author;
 
-    @Column(name = "year_book")
+    @Column(name = "year")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date year_book;
+    private Date year;
 
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
@@ -36,11 +36,11 @@ public class Book {
 
     };
 
-    public Book(int id, String title, String author, Date year_book) {
+    public Book(int id, String title, String author, Date year) {
         this.id = id;
         this.title = title;
         this.author = author;
-        this.year_book = year_book;
+        this.year = year;
     }
 
     public int getId() {
@@ -67,12 +67,12 @@ public class Book {
         this.author = author;
     }
 
-    public Date getYear_book() {
-        return year_book;
+    public Date getYear() {
+        return year;
     }
 
-    public void setYear_book(Date year_book) {
-        this.year_book = year_book;
+    public void setYear(Date year) {
+        this.year = year;
     }
 
     public Person getOwner() {
@@ -88,7 +88,7 @@ public class Book {
         return "Book{" +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
-                ", year_book='" + year_book + '\'' +
+                ", year='" + year + '\'' +
                 '}';
     }
 }
