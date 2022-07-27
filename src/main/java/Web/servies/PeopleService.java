@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,9 +50,18 @@ public class PeopleService {
     public List<Book> getBooksByPersonId(int id) {
         Optional<Person> person = peopleRepository.findById(id);
 
-        Hibernate.initialize(person.get().getBookList()); // Подгружаем связанные сущности
 
         if (person.isPresent()) {
+            Hibernate.initialize(person.get().getBookList()); // Подгружаем связанные сущности
+
+            person.get().getBookList().forEach(book -> {
+                long diffInMillies = Math.abs(book.getTakenAt().getTime() - new Date().getTime());
+                // 864000000 миллисекунд = 10 суток
+                if (diffInMillies > 864000000)
+                    book.setExpired(true); // книга просрочена
+            });
+
+
             return person.get().getBookList();
         } else {
             return Collections.emptyList();

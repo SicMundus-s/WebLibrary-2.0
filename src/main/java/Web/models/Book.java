@@ -32,12 +32,17 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
+
+    @Column(name = "taken_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date takenAt;
+    @Transient
+    private boolean expired; // Hibernate не будет замечать этого поля. По-умолчанию false.
     public Book() {
 
     };
 
-    public Book(int id, String title, String author, Date year) {
-        this.id = id;
+    public Book(String title, String author, Date year) {
         this.title = title;
         this.author = author;
         this.year = year;
@@ -81,6 +86,22 @@ public class Book {
 
     public void setOwner(Person owner) {
         this.owner = owner;
+    }
+
+    public Date getTakenAt() {
+        return takenAt;
+    }
+
+    public void setTakenAt(Date takenAt) {
+        this.takenAt = takenAt;
+    }
+
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
     }
 
     @Override
