@@ -68,6 +68,11 @@ public class BooksService {
         return Optional.ofNullable(booksRepositories.findById(id).get().getOwner());
     }
 
+    /**
+     * Пользователь отдаёт книгу обратно в библиотеку, устанавливаем для поля owner - null(владельца нет)
+     * в TakenAt передаём 1970 год, чтобы не назначать null. Если вызвать гетер поля TakenAt, то при значении
+     * null может обвалиться сервис с NullPointerEX
+     */
     @Transactional
     public void giveTheBookAway(int id) {
         booksRepositories.findById(id).ifPresent(book -> {
@@ -75,6 +80,12 @@ public class BooksService {
             book.setTakenAt(new Date(0));
         });
     }
+
+    /**
+     * Назначает книгу человеку.
+     * @param id Книги
+     * @param person за кем закрепить книгу
+     */
     @Transactional
     public void assign(int id, Person person) {
         booksRepositories.findById(id).ifPresent(book -> { // Используем consumer

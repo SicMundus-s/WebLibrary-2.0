@@ -13,5 +13,6 @@ CREATE TABLE book
     title varchar(100) UNIQUE NOT NULL,
     author varchar(150) NOT NULL,
     year_book date NOT NULL,
+    taken_at timestamp DEFAULT CURRENT_TIMESTAMP,
     person_id int REFERENCES person(id) ON DELETE SET NULL
 );
